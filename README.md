@@ -47,7 +47,6 @@ We will use publicly available "open data sets" (e.g., from [Kaggle](https://kag
    * Working with tidyverse - Visualizations (`ggplot2`)
    * Working with tidyverse - Tidying and transformations (`tidyr`, `dplyr`)
    * Modelling
-      
       * Statistical inference and parameter estimation (e.g., average, standard deviation, percentiles).
       * Hypothesis testing:
          * Confidence intervals, unpaird tests, paird tests. Student's t-test, z test, a-parameteric tests.
@@ -56,6 +55,7 @@ We will use publicly available "open data sets" (e.g., from [Kaggle](https://kag
          * Analysis of Variance (One-way and Two-way ANOVA).
          * Linear regression.
          * Correlation.
+   * Communicating your results (`rmarkdown`).
 
 ## Session layout
 
