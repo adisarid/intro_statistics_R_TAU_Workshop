@@ -10,7 +10,7 @@ In this repository you will find all the required materials including workshop l
 
 In this course there are 3 workshop hours per week.
 
-Lecturer: Mr. Adi Sarid.
+Lecturer: Dr. Adi Sarid.
 
    * Office hours: Please **coordinate in advance** via email.
    * E-mail: adi@sarid-ins.co.il.
@@ -51,8 +51,6 @@ We will use publicly available "open data sets" (e.g., from [Kaggle](https://kag
       * Hypothesis testing:
          * Confidence intervals, unpaird tests, paird tests. Student's t-test, z test, a-parameteric tests.
          * Goodness of fit (Chi-square, Kolmogorov-Smirnov).
-         * The problem with p-value and significance testing in the age of big data. False discovery rate (FDR).
-         * Analysis of Variance (One-way and Two-way ANOVA).
          * Linear regression.
          * Correlation.
    * Communicating your results (`rmarkdown`).
