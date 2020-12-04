@@ -158,9 +158,24 @@ question_radio("Both forms contain the same information, but are structured diff
 
 ## Critical thinking
 
+As a researcher, you should always keep your eyes out for the small letters, and be able to understand if the data you are using has some kind of limitations or biases.
 
+Visit the google site: [https://www.google.com/covid19/mobility/](https://www.google.com/covid19/mobility/). Browse through the documentation of how the data was produced. 
+
+   * Do you see any problems with the way the data was collected? produced? 
+   * Is there anything that can cause bias or mislead?
+   * What would you have done differently?
 
 ## Summary and conclusions
 
+You have completed your first lab!
 
+In this lab we had the opportunity to create our first plot (yay!). We analyzed it a bit, changed it to a different country, and also had a look at the underlying data.
 
+In this lab I gave you most of the code readily made, but by the end of week 4 of the workshop, you will have all the knowledge to generate such plots on your own.
+
+We had the opportunity to see different data types (character, date, and numeric).
+
+We learned about tidy data, and also saw how data is transformed from a wide format to a long format.
+
+I hope you enjoyed this lab. You can do it again from scratch by clicking "start over" in the left navigation bar. 
