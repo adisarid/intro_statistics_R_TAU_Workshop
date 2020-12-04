@@ -1,0 +1,62 @@
+---
+title: "Visualizing COVID19 Mobility trends using google data"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+mob_trend <- readr::read_csv("global_mobility_trends.csv")
+```
+
+
+## Background
+
+In this lab, we're going to use data visualizations to analyze and understand the influence of COVID19 on mobility trends using google data.
+
+The goal of the lab is not to teach how to do the visualization. Don't worry, you will get there eventually, but it will take some more workshop meetings. 
+
+The goal is to expose you to coding, let you play a little with code, and also show you some nice things that can be done.
+
+In this lab you will have a chance to see:
+
+   1. How a data structure looks like.
+   2. How two different structures can have the same information, but serve different purposes.
+   3. How data can be visualized.
+   4. You will interpret and understand the visualization, using Israel's trends.
+   5. You will change the code to make the visualization show a different country and try to interpret it as well.
+
+## The data
+
+Our data comes from google mobility trends, here: (https://www.google.com/covid19/mobility/)[https://www.google.com/covid19/mobility/].
+
+They provide a baseline of "mobility" for each country, before the pandemic, and for every day during the pandemic. The data covers different areas such as residential, workplace, and more.
+
+Run the following code to generate a visualization for the data:
+
+```{r visualize-mobility-trends, exercise=TRUE}
+
+mob_trend %>% 
+  filter(country_region == "Israel") %>% 
+  pivot_longer(cols = retail_and_recreation:residential, names_to = "area", values_to = "trend") %>% 
+  ggplot(aes(x = date, y = trend, color = area)) + 
+  geom_point(size = 0.5, alpha = 0.5) + 
+  geom_smooth() +
+  facet_wrap(~area)
+
+```
+
+Discuss the plot for a few minutes, try to interpret the different trends you see (for example in light of the first and second lockdowns we experienced). 
+
+Answer these questions:
+
+## Under the hood
+
+## Critical thinking
+
+## Summary and conclusions
+
+
+
