@@ -39,4 +39,30 @@ global_mobility_trends <- global_mobility_trends_raw %>%
   )) %>% 
   rename_at(3:8, ~str_remove(., "_percent_change_from_baseline"))
 
+
 write_csv(global_mobility_trends, "labs/Visualizing COVID19 Mobility Trends/global_mobility_trends.csv")  
+
+
+# Rescaling the data again - even smaller ---------------------------------
+
+mob_trend <- readr::read_csv("labs/Visualizing COVID19 Mobility Trends/global_mobility_trends.csv")
+
+mob_trend_small <- mob_trend %>% 
+  filter(country_region %in% c(
+    "United Arab Emirates",
+    "Argentina",
+    "Switzerland",
+    "France",
+    "Greece",
+    "Ireland",
+    "Israel",
+    "Italy",
+    "Lebanon",
+    "Philippines",
+    "Russia",
+    "Turkey",
+    "United States",
+    "South Africa"
+  ))
+
+write_csv(mob_trend_small, "labs/Visualizing COVID19 Mobility Trends/global_mobility_trends_smaller.csv")

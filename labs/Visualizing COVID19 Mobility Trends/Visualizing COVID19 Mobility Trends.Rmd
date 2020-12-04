@@ -8,7 +8,7 @@ runtime: shiny_prerendered
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
-mob_trend <- readr::read_csv("global_mobility_trends.csv")
+mob_trend <- readr::read_csv("global_mobility_trends_smaller.csv")
 ```
 
 
@@ -30,7 +30,7 @@ In this lab you will have a chance to see:
 
 ## The data
 
-Our data comes from google mobility trends, here: (https://www.google.com/covid19/mobility/)[https://www.google.com/covid19/mobility/].
+Our data comes from google mobility trends, here: [https://www.google.com/covid19/mobility/](https://www.google.com/covid19/mobility/).
 
 They provide a baseline of "mobility" for each country, before the pandemic, and for every day during the pandemic. The data covers different areas such as residential, workplace, and more.
 
@@ -68,7 +68,7 @@ question_radio("During April mobility decreased in all areas but one. Which is i
 
 ```{r plot-questions-2}
 
-question_checkbox("Which areas are relatively stable during Jul-Dec, i.e., exhibit little change?",
+question_checkbox("Which areas are relatively stable during the period? i.e., exhibit little change?",
                   answer("Grocery and pharmacy", correct = TRUE),
                   answer("Parks"),
                   answer("Residential", correct = TRUE),
@@ -84,9 +84,81 @@ question_checkbox("Which areas are relatively stable during Jul-Dec, i.e., exhib
 
 ```
 
+The previous code generated a plot for Israel's data. Run the following code and see what other countries exist in the data.
+
+```{r which-countries-in-the-data, exercise=TRUE}
+mob_trend %>%
+  distinct(country_region)
+```
+
+In the following box, change the code to show a different country: 
+
+```{r visualize-mobility-trends-other-countries, exercise=TRUE}
+
+mob_trend %>% 
+  filter(country_region == "Israel") %>% 
+  pivot_longer(cols = retail_and_recreation:residential, names_to = "area", values_to = "trend") %>% 
+  ggplot(aes(x = date, y = trend, color = area)) + 
+  geom_point(size = 0.5, alpha = 0.5) + 
+  geom_smooth() +
+  facet_wrap(~area)
+
+```
+
+
 ## Under the hood
 
+You've seen the plots that we can make, but let's see how the data behind the plot is arranged.
+
+Run the following code and have a look at the resulting table which represents the data (note that you can browse the different pages at the buttom right and you can extend the table to the right using the small right arrow).
+
+```{r table-original-data, exercise=TRUE}
+mob_trend
+```
+
+```{r data-variables}
+question_text("How many variables (columns) are there in the data?",
+              answer("8", message = "That's exactly right!", correct = TRUE),
+              allow_retry = T
+              )
+```
+
+```{r data-variable-types}
+question_checkbox("Which variable types are there in the data?",
+                  answer("Character", correct = TRUE),
+                  answer("Numeric", correct = TRUE),
+                  answer("Date", correct = TRUE),
+                  answer("Logical (boolean)"),
+                  answer("Factor"),
+                  random_answer_order = T,
+                  allow_retry = T)
+```
+
+A data set is called "tidy" if every row constitues an observation and every column is a variable. Very much like the data set we have worked with: every row is an observation of a specific country/region at a specific date. The columns include country/region, date, and the different aread in which mobility was measured.
+
+Prior to plotting the data, we used a short code which slightly transformed our data (kept it tidy but in a different manner). Let's isolate just that code and see how the data was modified:
+
+```{r table-original-data-long, exercise=TRUE}
+mob_trend2 <- mob_trend %>%
+  pivot_longer(cols = retail_and_recreation:residential, names_to = "area", values_to = "trend")
+
+mob_trend2
+```
+
+```{r long-versus-wide}
+question_radio("Both forms contain the same information, but are structured differently. What would you consider a long format, and what would you consider a wide format?",
+               answer("Both are long"),
+               answer("Both are wide"),
+               answer("`mob_trend` is long and `mob_trend2` is wide"),
+               answer("`mob_trend` is wide and `mob_trend2` is long", correct = TRUE),
+               correct = "Great job!",
+               incorrect = "Try again",
+               allow_retry = T)
+```
+
 ## Critical thinking
+
+
 
 ## Summary and conclusions
 
