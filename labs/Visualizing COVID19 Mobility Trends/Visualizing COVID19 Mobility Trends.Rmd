@@ -52,6 +52,38 @@ Discuss the plot for a few minutes, try to interpret the different trends you se
 
 Answer these questions:
 
+```{r plot-questions-1}
+question_radio("During April mobility decreased in all areas but one. Which is it?",
+               answer("Grocery and pharmacy"),
+               answer("Parks"),
+               answer("Residential", correct = TRUE),
+               answer("Transit stations"),
+               answer("Workplaces"),
+               correct = random_praise(),
+               incorrect = random_encouragement(),
+               random_answer_order = T,
+               allow_retry = TRUE,
+               try_again = incorrect)
+```
+
+```{r plot-questions-2}
+
+question_checkbox("Which areas are relatively stable during Jul-Dec, i.e., exhibit little change?",
+                  answer("Grocery and pharmacy", correct = TRUE),
+                  answer("Parks"),
+                  answer("Residential", correct = TRUE),
+                  answer("Retail and recreation"),
+                  answer("Transit stations"),
+                  answer("Workplaces"),
+                  correct = random_praise(),
+                  incorrect = random_encouragement(),
+                  random_answer_order = T,
+                  allow_retry = TRUE,
+                  try_again = incorrect
+                  )
+
+```
+
 ## Under the hood
 
 ## Critical thinking
