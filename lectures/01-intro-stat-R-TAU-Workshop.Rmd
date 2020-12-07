@@ -212,8 +212,45 @@ Illustrations from the Openscapes blog Tidy Data for reproducibility, efficiency
 
 ---
 
-# Optional homework
 
-Read about tidytuesday [here](https://github.com/rfordatascience/tidytuesday).
+# Class exercise (in groups, if time permits)
 
-Watch a tidytuesday video [here](https://www.youtube.com/user/safe4democracy/videos).
+The Fibonacci series is a series in which every element is the sum of the previous two elements, i.e.:
+
+$$1, 1, 2, 3, 5, 8, 13, 21, 34,...$$
+
+Use the following code to build a loop that prints out the first 20 elements of the Fibonacci series:
+
+.small[
+```
+# Fibonachi code exercise, fill in the blanks (where you see `?`)
+total <- ?
+
+element_i_minus1 <- 1
+element_i_minus2 <- ?
+
+for (? in 3:total){
+  next_element <- ? + ?
+  element_i_minus2 <- element_i_minus1
+  ? <- next_element
+  cat("\n", ?)
+}
+```
+]
+
+
+---
+
+# Wrap up
+
+   * We have seen how R can be used for visualizations and along the way learned important aspects such as the data science work flow and tidy data.
+   
+   * You experienced a bit of coding and making visualizations on your own - don't worry we will get back to visualizations in our third session.
+   
+   * We have seen RStudio IDE, and base R (assignments, functions, conditions, logical operators, special values).
+
+## Optional homework
+
+Read about tidytuesday [here](https://github.com/rfordatascience/tidytuesday). Watch a tidytuesday video [here](https://www.youtube.com/user/safe4democracy/videos).
+
+Next week we will talk about tidyverse and how to tidy and transform data.
