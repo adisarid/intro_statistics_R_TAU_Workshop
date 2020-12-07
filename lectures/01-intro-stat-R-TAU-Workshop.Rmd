@@ -158,5 +158,62 @@ Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-i
 
 # Back to the basics
 
-We will end this lesson with a primer on R basic syntax.
+Switching to some live coding session:
 
+   * We will demonstrate base R syntax
+   
+   * We will familiarize ourselves with the RStudio IDE
+
+---
+
+# Tidy data: a friendly definition
+
+<img src="tidydata_1.jpg" width="80%" height="auto">
+
+Illustrations from the Openscapes blog Tidy Data for reproducibility, efficiency, and collaboration by Julia Lowndes and Allison Horst.
+
+---
+
+# Tidy data: tidy versus untidy
+
+<img src="tidydata_2.jpg" width="80%" height="auto">
+
+**Excel users have a tendency to get data to be untidy:** merged cells, colored cells, aggregated cells, skipping rows, hidden columns, formulas, pivot tables, etc...
+
+---
+
+# Tidy data: a consistent set of tools
+
+<img src="tidydata_3.jpg" width="80%" height="auto">
+
+---
+
+# Tidy data: we all speak the same language
+
+<img src="tidydata_4.jpg" width="80%" height="auto">
+
+---
+
+# Tidy data: and can automate many tasks
+
+<img src="tidydata_5.jpg" width="80%" height="auto">
+
+---
+
+# Tidy data: tidy is good
+
+<img src="tidydata_6.jpg" width="80%" height="auto">
+
+---
+
+# Tidy data
+
+<img src="tidydata_7.jpg" width="80%" height="auto">
+
+---
+
+# Optional homework
+
+Read about tidytuesday [here](https://github.com/rfordatascience/tidytuesday).
+
+Watch a tidytuesday video [here](https://www.youtube.com/user/safe4democracy/videos).
