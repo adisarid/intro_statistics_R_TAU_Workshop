@@ -44,7 +44,7 @@ some_logical <- c(TRUE, FALSE, FALSE, TRUE) # can also use c(T, F, F, T) is the 
 some_logical
 
 # Reading a part of a vector
-some_factor[1:2]
+some_factor[c(1, 3)]
 
 
 # List --------------------------------------------------------------------
@@ -106,10 +106,11 @@ ggplot(mtcars, aes(x = disp, y = mpg)) +
   geom_point()
 
 
+mtcars
+
 # Operators ---------------------------------------------------------------
 
 # Logical operators: TRUE and FALSE (same as T and F)
-
 
 a <- 5
 b <- 6
@@ -122,6 +123,9 @@ v1 <- c(T, T, F, F)
 v2 <- c(T, F, T, F)
 
 v1 | v2
+v1 || v2
+
+v1 && v2
 
 # Not is !
 
@@ -167,6 +171,10 @@ for (current_fruit in fruits) {
 
 NA
 
+
+
+NA*0
+
 Inf
 
 NULL
@@ -176,6 +184,8 @@ NaN
 # With respective functions such as:
 is.finite(100/0)
 is.infinite(log(0))
+
+is.na(c(1.7, 1.6, NA, 1.78))
 
 NA + 1
 NA * 0
