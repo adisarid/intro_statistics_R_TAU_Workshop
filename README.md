@@ -62,6 +62,11 @@ Each three hour session will be split to 3 parts:
    * In the second part I will teach new things: techniques, R functions, and concepts (~75-90 minutes).
    * In the final part we will split the class into smaller groups, in which you will solve an R programming exercise (~30-45 minutes).
 
+## Video recordings
+
+The lectures are recorded and published here:
+[https://tau.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=63ae0b2d-6a79-4d4d-82d5-ac8f0160961b](https://tau.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=63ae0b2d-6a79-4d4d-82d5-ac8f0160961b)
+
 ## Software Prerequisites
 
 You will need to install [R](https://www.r-project.org) and [RStudio](https://rstudio.com/products/rstudio/download/). RStudio is not mandatory to run R, but it provides a very environment for writing R code. Both software are available for free (for RStudio download the *RStudio Desktop Open Source License* version).
