@@ -1,0 +1,160 @@
+---
+title: "Introduction to R (TAU Workshop) Data Transformation and Wrangling"
+subtitle: "Second session"
+author: "Adi Sarid"
+institute: "Tel-Aviv University"
+date: "Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    css: [metropolis, rutgers-fonts]
+---
+
+```{css, echo = FALSE}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 24px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+.small .remark-code {
+   font-size: 75% !important;
+}
+.remark-slide-content {
+    font-size: 25px;
+    padding: 1em 4em 1em 4em;
+}
+table { display: inline-block; }
+th, td {
+   padding: 5px;
+}
+small-slide {
+   font-size: 70% !important;
+}
+```
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, fig.width = 3, fig.height = 3)
+knitr::opts_chunk$set(fig.dim=c(3, 3), fig.align = "center")
+library(tidyverse)
+```
+
+
+# Recap from last week 
+
+In the previous session
+
+   * You built your first plot in `R`!
+   
+   * You visualized google mobility trends in Israel, and discussed how they were affected by Covid-19
+   
+   * You saw how data is structured and discussed tidy data
+   
+   * We discussed the data science workflow
+   
+   * You saw the RStudio IDE and base-R syntax (i.e., for loops, if clauses, functions, and more)
+
+---
+
+# Today's focus: data transformations and wrangling
+
+<img src="environmental-data-science-r4ds-general.png" width="80%" height="auto">
+
+Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+
+
+---
+
+# What we will do today
+
+   * Focus on tidyverse syntax
+   
+   * Some quick tricks on getting to know your data
+   
+   * Learn how to transform data sets so they will be easier to analyze:
+   
+      * Operations that affect rows (e.g., filtering, arranging)
+      
+      * Operations that affect columns (e.g., selection, mutation)
+      
+      * Operations that summarize data (e.g., compute mean, sd, percentiles)
+   
+      * Changing the data representation (changing long to wide formats or vice verse)
+      
+      * Merging (joining) data sets
+      
+
+---
+
+# Some quick tricks to get to know your data
+
+---
+
+# Operations that affect rows
+
+---
+
+# Operations that affect columns
+
+---
+
+# Operations that summarize data
+
+---
+
+# Changing the data representation (long vs. wide)
+
+---
+
+# Joining data sets
+
+---
+
+# Wrap up
+
+   * We have seen a lot of tidyverse basics for data transformations and wrangling
+   
+      * Rows affecting functions, column affecting functions, summarizing functions, pivoting
+      
+      * These are all the must-have elements for data analysis
+      
+      * You want to exercise these as much as you can if you want to become proficient in data science
+   
+   * You experienced the various functions using the Himalayan Climbing Expeditions data set from the tidytuesday repository
+
+---
+
+# Optional homework
+
+Analyze the [IKEA data set](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-11-03/readme.md), and answer:
+
+   * How many different items appear in the data set?
+   
+   * What is the most frequently appearing category?
+   
+   * What is the most expensive category (on average? on median?)
+   
+   * How many different items are sellable online?
+   
+   * What is the average discount provided at the time of data collection?
+   
+   * What is the average size of a chair?
+   
+   * Who is the most common IKEA designer?
+   
+   * Create a new table with each row representing a product name, and each column representing a category. The table values should represent the number of products sold with that name and product category.
