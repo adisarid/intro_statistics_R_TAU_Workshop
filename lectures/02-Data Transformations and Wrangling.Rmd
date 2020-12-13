@@ -73,7 +73,7 @@ In the previous session
 
 # Today's focus: data transformations and wrangling
 
-<img src="environmental-data-science-r4ds-general.png" width="80%" height="auto">
+<img src="environmental-data-science-r4ds-general.png" width="100%" height="auto">
 
 Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 
@@ -101,19 +101,45 @@ Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-i
 
 ---
 
+# Conceptual map of basic tidyverse operations
+
+<img src="tidyverse_conceptual.png" width="80%" height="auto">
+
+---
+
 # Some quick tricks to get to know your data
 
+Prerequisite: throughout the exercise we will use the `tidyverse` packages. To install them use `install.packages(tidyvers)` and then run `library(tiydverse)` in your script.
+
+   * The pipe is very useful `%>%`
+
+When you explore a dataset for the first time, use:
+
+   * `glimpse` to see what variables there are
+   * `head` (and `tail`) to see the first few first (and last) set of lines
+   * `View` to see the data in a table
+   * `count` to count a specific variable or combination of variables
+
 ---
 
-# Operations that affect rows
+# Operations that affect rows (manipulate cases)
+
+These are operations like sorting the rows according to a specific variable, filtering tables, sampling, or taking distinct values
+
+   * `filter` (remember logical operators?)
+   * `arrange`
+   * `sample_n` and `sample_frac`
+   * `slice`
+
+<img src="dplyr_filter.jpg" width="50%" height="auto">
 
 ---
 
-# Operations that affect columns
+# Operations that affect columns (manipulate variables)
 
 ---
 
-# Operations that summarize data
+# Operations that summarize data (summarize cases)
 
 ---
 
@@ -121,7 +147,7 @@ Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-i
 
 ---
 
-# Joining data sets
+# Joining data sets (combine tables)
 
 ---
 
@@ -139,11 +165,13 @@ Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-i
 
 ---
 
+class: small
+
 # Optional homework
 
 Analyze the [IKEA data set](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-11-03/readme.md), and answer:
 
-   * How many different items appear in the data set?
+   * How many different items appear in the data set? 
    
    * What is the most frequently appearing category?
    
@@ -154,7 +182,5 @@ Analyze the [IKEA data set](https://github.com/rfordatascience/tidytuesday/blob/
    * What is the average discount provided at the time of data collection?
    
    * What is the average size of a chair?
-   
-   * Who is the most common IKEA designer?
    
    * Create a new table with each row representing a product name, and each column representing a category. The table values should represent the number of products sold with that name and product category.

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="306.29791mm"
+   height="99.594513mm"
+   viewBox="0 0 306.29791 99.594513"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="tidyverse_conceptual.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="476.04625"
+     inkscape:cy="255.7128"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="1341"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(63.45089,-36.966412)">
+    <rect
+       style="fill:#afc6e9;stroke:#000000;stroke-width:0.178399"
+       id="rect14"
+       width="49.907726"
+       height="19.589241"
+       x="77.506569"
+       y="81.19548" />
+    <rect
+       style="fill:#ffccaa;stroke:#000000;stroke-width:0.184195"
+       id="rect14-3"
+       width="40.679935"
+       height="25.619886"
+       x="24.294044"
+       y="78.868881" />
+    <rect
+       style="fill:#afe9c6;stroke:#000000;stroke-width:0.184195"
+       id="rect14-3-2"
+       width="40.679939"
+       height="25.619886"
+       x="136.01271"
+       y="77.772934" />
+    <rect
+       style="fill:#d7f4e3;stroke:#000000;stroke-width:0.190509"
+       id="rect14-0"
+       width="48.401302"
+       height="23.034298"
+       x="194.35046"
+       y="45.81216" />
+    <rect
+       style="fill:#d7f4e3;stroke:#000000;stroke-width:0.212034"
+       id="rect14-33"
+       width="46.508896"
+       height="29.694513"
+       x="191.36299"
+       y="103.60421" />
+    <rect
+       style="fill:#ffe6d5;stroke:#000000;stroke-width:0.172241"
+       id="rect14-1"
+       width="46.548687"
+       height="19.578064"
+       x="-41.90657"
+       y="116.89674" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 64.97398,91.436572 77.506569,91.287306"
+       id="path196"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#rect14-3"
+       inkscape:connection-end="#rect14" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 127.4143,90.801543 8.59841,-0.06497"
+       id="path198"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#rect14"
+       inkscape:connection-end="#rect14-3-2" />
+    <rect
+       style="fill:#ffe6d5;stroke:#000000;stroke-width:0.299286"
+       id="rect14-8"
+       width="72.614059"
+       height="37.892616"
+       x="-63.301247"
+       y="37.116055" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 176.69265,79.708382 197.00911,68.846458"
+       id="path200"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#rect14-3-2"
+       inkscape:connection-end="#rect14-0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 176.69265,100.31168 14.67034,7.01696"
+       id="path202"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#rect14-3-2"
+       inkscape:connection-end="#rect14-33" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 24.294044,102.93349 -0.94101948,116.89674"
+       id="path204"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#rect14-3"
+       inkscape:connection-end="#rect14-1" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 24.294044,81.564967 9.3128128,74.115691"
+       id="path206"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#rect14-3"
+       inkscape:connection-end="#rect14-8" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.81944px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="82.051743"
+       y="93.277061"
+       id="text69"><tspan
+         sodipodi:role="line"
+         id="tspan67"
+         x="82.051743"
+         y="93.277061"
+         style="font-size:8.81944px;stroke-width:0.264583">Tidy data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="31.805073"
+       y="88.204315"
+       id="text73"><tspan
+         sodipodi:role="line"
+         id="tspan71"
+         x="31.805073"
+         y="88.204315"
+         style="font-size:8.81944px;stroke-width:0.264583">Single</tspan><tspan
+         sodipodi:role="line"
+         x="31.805073"
+         y="101.43344"
+         style="font-size:8.81944px;stroke-width:0.264583"
+         id="tspan75">Tibble</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.81944px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="140.31651"
+       y="88.17746"
+       id="text79"><tspan
+         sodipodi:role="line"
+         id="tspan77"
+         x="140.31651"
+         y="88.17746"
+         style="font-size:8.81944px;stroke-width:0.264583">Multiple</tspan><tspan
+         sodipodi:role="line"
+         x="140.31651"
+         y="99.201759"
+         style="font-size:8.81944px;stroke-width:0.264583"
+         id="tspan81">Tibbles</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.83781px;line-height:0;font-family:sans-serif;stroke-width:0.175134"
+       x="196.0202"
+       y="52.607895"
+       id="text100"><tspan
+         sodipodi:role="line"
+         x="196.0202"
+         y="52.607895"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.175134"
+         id="tspan102">Join operations</tspan><tspan
+         sodipodi:role="line"
+         x="196.0202"
+         y="58.534557"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.175134"
+         id="tspan106">left_join</tspan><tspan
+         sodipodi:role="line"
+         x="196.0202"
+         y="64.46122"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.175134"
+         id="tspan110">right_join..</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.81944px;line-height:0;font-family:sans-serif;stroke-width:0.264583"
+       x="193.23587"
+       y="110.9679"
+       id="text116"><tspan
+         sodipodi:role="line"
+         id="tspan114"
+         x="193.23587"
+         y="110.9679"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583">Set operations</tspan><tspan
+         sodipodi:role="line"
+         x="193.23587"
+         y="116.89456"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan118">setdiff</tspan><tspan
+         sodipodi:role="line"
+         x="193.23587"
+         y="122.82123"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan120">union</tspan><tspan
+         sodipodi:role="line"
+         x="193.23587"
+         y="128.74789"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan128">bind_rows</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.81944px;line-height:0;font-family:sans-serif;stroke-width:0.264583"
+       x="-40.516098"
+       y="122.68746"
+       id="text134"><tspan
+         sodipodi:role="line"
+         id="tspan132"
+         x="-40.516098"
+         y="122.68746"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583">Pivot (reshape)</tspan><tspan
+         sodipodi:role="line"
+         x="-40.516098"
+         y="128.61412"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan136">pivot_longer</tspan><tspan
+         sodipodi:role="line"
+         x="-40.516098"
+         y="134.54079"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan138">pivot_wider</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.81944px;line-height:0;font-family:sans-serif;stroke-width:0.264583"
+       x="-61.088745"
+       y="42.758648"
+       id="text134-6"><tspan
+         sodipodi:role="line"
+         id="tspan132-2"
+         x="-61.088745"
+         y="42.758648"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583">Column operations</tspan><tspan
+         sodipodi:role="line"
+         x="-61.088745"
+         y="48.68531"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan174">Row operations</tspan><tspan
+         sodipodi:role="line"
+         x="-61.088745"
+         y="54.611973"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan176">Summarizing operations</tspan><tspan
+         sodipodi:role="line"
+         x="-61.088745"
+         y="60.538635"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan182">mutate; group_by; </tspan><tspan
+         sodipodi:role="line"
+         x="-61.088745"
+         y="66.465294"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan170">summarize; filter;</tspan><tspan
+         sodipodi:role="line"
+         x="-61.088745"
+         y="72.39196"
+         style="font-size:5.64444px;line-height:1.05;stroke-width:0.264583"
+         id="tspan172">arrange...</tspan></text>
+  </g>
+</svg>
