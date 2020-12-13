@@ -130,6 +130,7 @@ These are operations like sorting the rows according to a specific variable, fil
    * `arrange`
    * `sample_n` and `sample_frac`
    * `slice`
+   * `distinct`
 
 <img src="dplyr_filter.jpg" width="50%" height="auto">
 
@@ -137,17 +138,55 @@ These are operations like sorting the rows according to a specific variable, fil
 
 # Operations that affect columns (manipulate variables)
 
+These are operations that help you transform variables, create new variables, select specific variables
+
+   * `select` to select specific variables
+   * `mutate` to create or modify variables
+   * `mutate_*` and `across`
+
+<img src="dplyr_mutate.png" width="35%" height="auto">
+
 ---
 
 # Operations that summarize data (summarize cases)
+
+Apply summary functions to create a new table. 
+To summarize data you need to combine `group_by`, `summarize`, and a summary function:
+
+   * `group_by` and `summarize`, followed by:
+   * `sum`, `n`, `mean`, `median`, `first`, `last`, `quantile`, `min`, `max`, `sd`
 
 ---
 
 # Changing the data representation (long vs. wide)
 
+Very often you will be required to change the data representation, from wide to long format (or vice verse).
+
+   * This is called pivoting, and you can use `pivot_longer` or `pivot_wider`
+   * Especially useful when plotting with `ggplot2`, which we will discuss next week
+
+<img src="tidyr_spread_gather.png" width="35%" height="auto">
+
 ---
 
 # Joining data sets (combine tables)
+
+Sometimes we have multiple sources of data, and we need to join them, or add them to one another
+
+   * Joining = Combining variables, adding new columns using shared key variables (`left_join`, `right_join`, `full_join`)
+   * Binding = Combining cases, adding new rows from another source, which has the same variables (`bind_rows`)
+
+---
+
+# Summarising exercise
+
+In this exercise you will explore (transform and wrangle) [Himalayan Climbing Expeditions](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md).
+
+   * Expeditions that climbed in the Nepal Himalaya
+   
+   * To complete this exercise you will need R, RStudio IDE. 
+   
+   * Download and follow the instructions [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/Tidying%20Himalayan%20Climbing%20Expeditions/02-Data-Transformations-and-Wrangling-Himalayan-Exercise.R)
 
 ---
 
