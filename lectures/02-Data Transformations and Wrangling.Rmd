@@ -222,4 +222,4 @@ Analyze the [IKEA data set](https://github.com/rfordatascience/tidytuesday/blob/
    
    * What is the average size of a chair?
    
-   * Create a new table with each row representing a product name, and each column representing a category. The table values should represent the number of products sold with that name and product category.
+   * Create a new table with each row representing a product name, and each column representing a category. The table values should represent the number of available products with that name and product category.
