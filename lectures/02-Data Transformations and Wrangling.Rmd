@@ -1,5 +1,5 @@
 ---
-title: "Introduction to R (TAU Workshop) Data Transformation and Wrangling"
+title: "Introduction to R (TAU Workshop) Data Transformation and Wrangling - part 1."
 subtitle: "Second session"
 author: "Adi Sarid"
 institute: "Tel-Aviv University"
@@ -216,7 +216,7 @@ Analyze the [IKEA data set](https://github.com/rfordatascience/tidytuesday/blob/
    
    * What is the most expensive category (on average? on median?)
    
-   * How many different items are sellable online?
+   * How many different items are sold online?
    
    * What is the average discount provided at the time of data collection?
    
