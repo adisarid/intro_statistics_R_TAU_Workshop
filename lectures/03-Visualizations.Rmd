@@ -1,0 +1,365 @@
+---
+title: "Introduction to R (TAU Workshop) Visualizations"
+subtitle: "Telling stories with charts (Third session)"
+author: "Adi Sarid"
+institute: "Tel-Aviv University"
+date: "Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    css: [metropolis, rutgers-fonts]
+---
+
+```{css, echo = FALSE}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 24px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+.small .remark-code {
+   font-size: 75% !important;
+}
+.remark-slide-content {
+    font-size: 25px;
+    padding: 1em 4em 1em 4em;
+}
+table { display: inline-block; }
+th, td {
+   padding: 5px;
+}
+small-slide {
+   font-size: 70% !important;
+}
+```
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, fig.width = 3, fig.height = 3)
+knitr::opts_chunk$set(fig.dim=c(3, 3), fig.align = "center", fig.dim = c(8,3))
+library(tidyverse)
+```
+
+
+# Recap from last week 
+
+In the previous session
+
+   * We have seen a lot of tidyverse basics for data transformations and wrangling
+   
+      * Rows affecting functions (e.g., `filter`), column affecting functions (e.g., `mutate`)
+      
+      * We saw an aggregating function (`count`), and data introduction function (`glimpse`)
+      
+      * You want to exercise these as much as you can if you want to become proficient in data science
+   
+   * You experienced the various functions using the Himalayan Climbing Expeditions data set from the tidytuesday repository
+
+---
+
+# Today's focus: data wrangling continued, and visualizations
+
+<img src="environmental-data-science-r4ds-general.png" width="100%" height="auto">
+
+Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+
+
+---
+
+# What we will do today
+
+   * Complete some things from last week
+   
+      * Operations that summarize data (e.g., compute mean, sd, percentiles)
+   
+   * Discuss the grammar of graphics
+   
+   * Learn and exercise `ggplot2`
+
+---
+
+# Operations that summarize data (summarize cases)
+
+Apply summary functions to create a new table. 
+To summarize data you need to combine `group_by`, `summarize`, and a summary function:
+
+   * `group_by` and `summarize`, followed by:
+   * `sum`, `n`, `mean`, `median`, `first`, `last`, `quantile`, `min`, `max`, `sd`
+
+(Examples: line 108 in `02-Data-Transformations-and-Wrangling.R`)
+
+---
+
+# The datasarus dozen
+
+Why are visualizations important?
+
+   * It is an amazing way to communicate findings
+   
+   * Sometimes it's the only way
+   
+A classic example in the "Datasarus Dozen dataset"
+.small[
+```{r datasaurus dozen}
+library(datasauRus)
+glimpse(datasaurus_dozen)
+```
+]
+
+---
+
+# The datasarus dozen (mean, sd, and correlation)
+
+What is the relationship between `x` and `y`?
+
+We can group the datasets within datasarus_dozen and compute mean, sd, and correlation.
+
+.small[
+```{r, echo=TRUE, eval=FALSE}
+datasaurus_dozen %>% 
+   group_by(dataset) %>% 
+   summarize(
+      mean_x = mean(x),
+      mean_y    = mean(y),
+      std_dev_x = sd(x),
+      std_dev_y = sd(y),
+      corr_x_y  = cor(x, y)
+   )
+```
+]
+
+---
+
+# The datasarus dozen (mean, sd, and correlation)
+
+What is the relationship between `x` and `y`?
+
+.small[
+```{r datasaurus dozen summarized, echo=FALSE}
+datasaurus_dozen %>% 
+   group_by(dataset) %>% 
+   summarize(
+      mean_x = mean(x),
+      mean_y    = mean(y),
+      std_dev_x = sd(x),
+      std_dev_y = sd(y),
+      corr_x_y  = cor(x, y)
+   )
+```
+]
+
+---
+
+# The datasarus dozen - IT'S MAGIC! (Simpson's paradox)
+
+.small[
+```{r datasaurus dozen plotted, fig.dim=c(7, 7)}
+ggplot(datasaurus_dozen) + geom_point(aes(x, y)) + facet_wrap(~dataset)
+```
+]
+
+---
+
+# The grammar of graphics
+
+Each variable in the data is mapped by an "aesthetic mapping":
+
+   * Axis (x, y); Color; Fill; Alpha (transparency); Size; Shape; etc.
+
+The aesthetics are combined with geometric functions, e.g.: 
+
+   * Points, bars, lines, histograms, densities, etc (there are a lot of them)
+
+These elements are implemented in the `ggplot2` package (which you've seen in the first session of this workshop)
+
+   * We have a template! (and a cheat sheet)
+
+```
+ggplot(data = <DATA>, mapping = aes(<GLOBAL MAPPINGS>)) + 
+   <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+---
+
+# Example: relationship of penguin flipper and bill length
+
+.small[
+```{r basic relationship}
+library(palmerpenguins)
+ggplot(penguins) + 
+   geom_point(aes(x = flipper_length_mm, y = bill_length_mm))
+```
+]
+
+---
+
+# Example: relationship of penguin flipper and bill length (questions)
+
+```{r basic relationship questions, echo = FALSE, warning=FALSE}
+ggplot(penguins) + 
+   geom_point(aes(x = flipper_length_mm, y = bill_length_mm))
+```
+
+   * What story does this chart tells you?
+   
+   * Is there a difference between penguin species?
+   
+   * What is the aesthetic mapping?
+   
+   * Why is there a warning message?
+
+---
+
+# Species matters
+
+.small[
+```{r basic relationship with species}
+ggplot(penguins) + 
+   geom_point(aes(x = flipper_length_mm, y = bill_length_mm,
+                  color = species))
+```
+]
+
+--
+
+   * What did you learn now that you didn't know before?
+
+--
+   
+   * If you wanted to add gender (`sex`) to this comparison, how would you do that?
+
+---
+
+# Gender matters as well
+
+.small[
+```{r penguins with gender}
+ggplot(penguins) + 
+    geom_point(aes(x = flipper_length_mm, y = bill_length_mm,
+                   shape = species, color = sex))
+```
+]
+
+--
+
+   * What information was added to this chart?
+   
+--
+
+   * The gender missing values, can you guess what they are?
+
+---
+
+# Adding regression models
+
+.small[
+```{r penguins with regression lines, warning=FALSE}
+ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = species)) + 
+   geom_point() + geom_smooth(method = "lm")
+```
+]
+
+--
+
+   * Note the use of global aesthetic mappings
+
+--
+
+   * Note that you can add layers one after the other (a number of geoms)
+
+---
+
+# WARNING: Don't get carried away
+
+There is such as a thing as too many details. 
+
+   * The human mind can process $7\pm2$ items in short term memory (see [here](https://www.simplypsychology.org/short-term-memory.html))
+ 
+.tiny[  
+```{r penguins with body mass, fig.dim=c(8,5), warning=FALSE}
+ggplot(penguins) + geom_point(aes(x = flipper_length_mm, y = bill_length_mm, shape = species, color = sex, size = body_mass_g), alpha = 0.45) + facet_wrap(~island)
+```
+]
+
+---
+
+# Facets
+
+Sometimes you need to "split" the plots according to a specific variable in order to make a point. This is called faceting. For example, we can replace the aesthetic mapping of `color=species` with faceting
+
+.small[
+```{r faceting example, warning=FALSE}
+ggplot(penguins) + 
+   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) + 
+   facet_wrap(~species)
+```
+]
+
+---
+
+# Scales
+
+Sometimes, we want to slightly modify aesthetic mappings. This can be accomplished using scales.
+
+.small[
+```{r scales example, warning=FALSE}
+ggplot(penguins) + 
+   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) + facet_wrap(~species) + 
+   scale_x_continuous(breaks = seq(30, 60, by = 5))
+```
+]
+
+--
+
+We will see some more interesting examples (i.e., log scales) in the following sessions.
+
+---
+
+# Final touch ups
+
+.small[You can control every aspect of the chart. For example, you can change the theme, the labels and the title.]
+
+.tiny[
+```{r final touch ups, warning=FALSE, message=FALSE}
+ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = species)) + 
+   geom_point(alpha = 0.4) + geom_smooth(method = "lm") + 
+   labs(title = "Penguin bill and flipper length relationships",
+        subtitle = "Separated by species",
+        caption = "See package palmerpenguins for the original data set") + 
+   xlab("Flipper length [mm]") + 
+   ylab("Bill length [mm]") + 
+   theme_light()
+```
+]
+
+---
+
+# Wrap up
+
+   * We discussed operations that summarize data (e.g., compute mean, sd, percentiles)
+   
+   * We talked about the grammar of graphics
+   
+   * We demonstrated and exercised ggplot2
+   
+      * Aesthetic mappings
+      
+      * Geoms
+      
+      * Scales
+      
+      * Facets
