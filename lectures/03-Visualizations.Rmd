@@ -401,14 +401,6 @@ AirPassengers %>%
 
 ---
 
-# Exercise
-
-In `labs/Tidying Himalayan Climbing Expeditions/03-Visualization-Himalayan-Exercise.R`, also available [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/Tidying%20Himalayan%20Climbing%20Expeditions/03-Visualization-Himalayan-Exercise.R).
-
-In this exercise you will continue your work on the Himalayan climbing expeditions data (which we started last week).
-
----
-
 # Final touch ups
 
 .small[You can control every aspect of the chart. For example, you can change the theme, the labels and the title.]
@@ -425,6 +417,14 @@ ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = species)
    theme_light()
 ```
 ]
+
+---
+
+# Exercise
+
+In `labs/Tidying Himalayan Climbing Expeditions/03-Visualization-Himalayan-Exercise.R`, also available [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/Tidying%20Himalayan%20Climbing%20Expeditions/03-Visualization-Himalayan-Exercise.R).
+
+In this exercise you will continue your work on the Himalayan climbing expeditions data (which we started last week).
 
 ---
 
