@@ -329,6 +329,78 @@ We will see some more interesting examples (i.e., log scales) in the following s
 
 ---
 
+# Mini exercise: how would you...? (1)
+
+   * Using the `ggplot2` cheat sheet, what are the three geoms required to produce this chart?
+   * What are the aesthetic mappings?
+   
+```{r mini exercse 1, echo=FALSE}
+sales <- tribble(~product, ~shift, ~sold,
+        "coffee", "morning", 100,
+        "coffee", "evening", 50,
+        "fries", "morning", 10,
+        "fries", "evening", 110,
+        "beer", "morning", 15,
+        "beer", "evening", 150,
+        "cake", "morning", 40,
+        "cake", "evening", 30) %>% 
+  group_by(product) %>% 
+  mutate(sales.prop = sold/sum(sold))
+
+ggplot(sales, aes(x = product, y = sold, fill = shift, label = sold)) + 
+  geom_col(position = "stack", color = "black") + 
+  geom_label(position = position_stack(), show.legend = F) + 
+  theme_bw() + scale_fill_brewer(palette = "Blues") +
+  ylab("sales") + xlab("product") + 
+  ggtitle("Sales data") +
+  theme(legend.position = "bottom")
+```
+
+---
+
+# Mini exercise: how would you...? (2)
+
+   * Monthly Airline passenger numbers 1949-1960 (see `?AirPassengers`)
+   * Use the ggplot2 cheat sheet
+   * What is the **one** geom required to produce this chart?
+   * What are the aesthetic mappings?
+   
+```{r mini exercise 2, echo=FALSE}
+AirPassengers %>% 
+   as_tibble() %>% 
+   mutate(date = seq.Date(from = as.Date("1949-01-01"), 
+                          to = as.Date("1960-12-01"), 
+                          by = "months")) %>% 
+   mutate(month = lubridate::month(date),
+          year = lubridate::year(date)) %>% 
+   mutate(passengers = as.numeric(x)) %>% 
+   ggplot(aes(x = year, y = month, fill = passengers)) + 
+   geom_tile() + 
+   scale_y_continuous(breaks = 1:12)
+```
+
+---
+
+# Mini exercise: how would you...? (3)
+
+Same passengers data, different visualization: what are the aesthetics and geom? which visualization is better and why?
+
+```{r mini exercise 3, echo=FALSE}
+AirPassengers %>% 
+   as_tibble() %>% 
+   mutate(date = seq.Date(from = as.Date("1949-01-01"), 
+                          to = as.Date("1960-12-01"), 
+                          by = "months")) %>% 
+   mutate(month = lubridate::month(date),
+          year = lubridate::year(date)) %>% 
+   mutate(passengers = as.numeric(x)) %>% 
+   ggplot(aes(color = factor(year), x = month, y = passengers)) + 
+   geom_line() + 
+   scale_x_continuous(breaks = 1:12)
+```
+
+---
+
 # Final touch ups
 
 .small[You can control every aspect of the chart. For example, you can change the theme, the labels and the title.]
