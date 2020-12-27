@@ -1,6 +1,6 @@
 ---
-title: "Introduction to R (TAU Workshop) Data Transformation and Wrangling - part 2."
-subtitle: "Second session"
+title: "Data Wrangling (part 2), Hypothesis testing and CIs"
+subtitle: "Fourth session"
 author: "Adi Sarid"
 institute: "Tel-Aviv University"
 date: "Updated: `r Sys.Date()`"
@@ -52,6 +52,7 @@ small-slide {
 options(htmltools.dir.version = FALSE, fig.width = 3, fig.height = 3)
 knitr::opts_chunk$set(fig.dim=c(3, 3), fig.align = "center")
 library(tidyverse)
+library(patchwork)
 ```
 
 
@@ -61,6 +62,8 @@ In the previous session
 
    * We demonstrated data transformations, specifically we discussed
    
+      * Data wrangling: `mutate`, `count`, `select`, `filter`
+   
       * Operations that summarize data (e.g., compute mean, sd, percentiles)
    
    * We talked about visualizations
@@ -68,18 +71,16 @@ In the previous session
    * You learned the theory behind the "grammar of graphics"
    
    * You implemented the theory using the `ggplot2` package
-   
-The week before that we also discussed
-
-   * Data wrangling, specifically
-   
-      * `mutate`, `count`, `select`, `filter`
 
 ---
 
-# Today's focus: data transformations and wrangling (part 2)
+# Today's focus 
 
-<img src="environmental-data-science-r4ds-general.png" width="100%" height="auto">
+   * Data transformations and wrangling (part 2)
+   
+   * Confidence intervals
+
+<img src="environmental-data-science-r4ds-general.png" width="80%" height="auto">
 
 Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 
@@ -108,9 +109,11 @@ Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-i
 Very often you will be required to change the data representation, from wide to long format (or vice verse).
 
    * This is called pivoting, and you can use `pivot_longer` or `pivot_wider`
-   * Especially useful when plotting with `ggplot2`, which we will discuss next week
+   * Especially useful when plotting with `ggplot2` which we discussed last week
 
-<img src="tidyr_spread_gather.png" width="35%" height="auto">
+See `lectures/02-Data-Transformations-and-Wrangling.R` under "changing the data representation (long vs. wide)".
+
+<img src="tidyr_spread_gather.png" width="20%" height="auto">
 
 ---
 
@@ -120,20 +123,215 @@ Sometimes we have multiple sources of data, and we need to join them, or add the
 
    * Joining = Combining variables, adding new columns using shared key variables (`left_join`, `right_join`, `full_join`)
    * Binding = Combining cases, adding new rows from another source, which has the same variables (`bind_rows`)
+   
+Exercise in file `lectures/02-Data-Transformations-and-Wrangling.R` under "Joining data sets (combine tables)".
 
 ---
 
 # Summarising exercise
 
-In this exercise you will explore (transform and wrangle) [Himalayan Climbing Expeditions](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md).
+In this exercise you will implement pivoting and joining data sets on the [Himalayan Climbing Expeditions](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md).
 
-   * Expeditions that climbed in the Nepal Himalaya
+   * Solve exercises 5-6 [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/Tidying%20Himalayan%20Climbing%20Expeditions/02-Data-Transformations-and-Wrangling-Himalayan-Exercise.R)
+
+---
+
+class: small
+
+# Modelling: Confidence Intervals
+
+   * Sometimes in statistics point estimates (e.g., mean, median) are not enough.
    
-   * To complete this exercise you will need R, RStudio IDE. 
+   * When we sample, it is unlikely that we will reach the exact parameter value
    
-   * Download and follow the instructions [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/Tidying%20Himalayan%20Climbing%20Expeditions/02-Data-Transformations-and-Wrangling-Himalayan-Exercise.R)
+   * As the sample increases accuracy improves; but
+
+--
    
-      * Start from exercise 4 in that file
+   * Sometimes we are interested in a *Confidence Interval*
+   
+   * An interval of the form $\hat{\Theta}_l < \theta < \hat{\Theta}_u$ where 
+
+--
+   
+   * The lower and upper bounds $\hat{\Theta}_l, \hat{\Theta}_u$ depend on the statistic $\hat{\Theta}$
+
+--
+
+In a probabilistic notation, we are looking for $\hat{\Theta}_l, \hat{\Theta}_u$ such that:
+
+$$P(\hat{\Theta}_l < \theta < \hat{\Theta}_u) = 1-\alpha$$
+
+For $\alpha\in(0,1)$. For example, when we set $\alpha=0.05$, we call this a 95% confidence interval for $\theta$.
+
+---
+
+# Motivation (example) road trippin' (1/3)
+
+   * Let's say we're planning a logistic operation 
+   
+--
+   
+   * We need to be in a specific place at a specific time
+
+--
+   
+   * We must not be late, but we can be a little early
+
+--
+
+   * When should we depart?
+
+---
+
+# Motivation (example) road trippin' (2/3)
+
+Waze is cool, but... [https://www.waze.com/livemap](https://www.waze.com/livemap)
+
+   * Not very robust for advance planning
+
+   * Specifically, we're only seeing a point estimate (average arrival time?) and not the distribution
+   
+   * It's not that accurate either (30min to TLV in the rush hour?)
+   
+.image-50[
+![](images/waze_not_accurate.jpg)
+]
+
+---
+
+class: small-slide
+
+# Motivation (example) road trippin' (3/3)
+
+.small-slide[
+Assume we have Waze's raw data (needs to be **focused on the relevant time**, unbiased sample). We can compute a confidence interval.
+]
+.small[
+```{r example for distribution of drive duration, include=FALSE}
+set.seed(0)
+drive_time <- tibble(duration = rexp(100, rate = 1/65))
+# the rate is 1/65 cars per min. It means that it takes 65 minutes to get through
+```
+]
+.right-plot[
+```{r plot the exp dist, echo=FALSE}
+ggplot(drive_time, aes(x = duration)) +
+   geom_histogram(bins = 15) +
+   theme_bw()
+```
+]
+.small[
+```{r t test results for drive duration}
+t.test(drive_time$duration, 
+       alternative = "two.sided", 
+       mu = mean(drive_time$duration))
+```
+]
+
+To be 95% sure, we need to plan for **80 minutes' drive**.
+
+---
+
+# A confidence interval using t.test
+
+We are looking for a confidence interval to the mean, and the variance is unknown.
+
+Three situations:
+
+   * One sample t-test
+   * Unpaired two sample t-test
+   * Paired two sample t-test
+
+Demonstration in `lectures/04-Confidence-Intervals-and-Hypothesis-Tests.R`.
+
+---
+
+# One sided versus two sided confidence intervals - illlustration
+
+.tiny[
+```{r illustration of two vs one sided ci, fig.dim=c(10, 4), echo=FALSE}
+normal_dist <- tibble(z = seq(-5,5,0.01)) %>% 
+   mutate(density = dnorm(z),
+          cumulative = pnorm(z))
+two_sided <- ggplot(normal_dist, aes(x = z, y = density)) + 
+   geom_line(size = 1) + geom_area(data = normal_dist %>% 
+                                      filter(cumulative <= 0.975 & cumulative >= 0.025), 
+                                   fill = "#1b9e77") +
+   theme_bw() + ggtitle("Two sided 95% c.i")
+one_sided_less <- ggplot(normal_dist, aes(x = z, y = density)) + 
+   geom_line(size = 1) + geom_area(data = normal_dist %>% filter(cumulative <= 0.95), 
+                                   fill = "#d95f02") +
+   theme_bw() + ggtitle("One sided 95% c.i (less than)")
+two_sided + one_sided_less
+```
+]
+
+---
+
+# One sided versus two sided (in the example)
+
+**Discussion**: 
+
+   * In the example of drive duration what type of confidence interval would you use? why?
+      * Two sided  /  One sided $\mu\leq C_L$  /  One sided $\mu\geq C_U$
+      
+.tiny[
+```{r t test results for drive duration one versus two sided}
+t.test(drive_time$duration, alternative = "two.sided", mu = mean(drive_time$duration))
+t.test(drive_time$duration, alternative = "less", mu = mean(drive_time$duration))
+```
+]
+
+---
+
+# Confidence interval for a population proportion
+
+A common use of confidence intervals is for polling (survey results). 
+
+Who are you going to vote for in the next election?
+
+--
+
+   * This is the third consecutive time I'm using this example and it's still relevant(!)
+
+   * Let's say there is a candidate B.
+   
+   * Survey results with $n=500$ show that $\hat{p}=200/500=40\%$. 
+   
+   * Would B cross the 50% threshold?
+   
+--
+
+In essense we are dealing with a population proportion (the proportion of B's voters in the gen. pop.).
+
+---
+
+# Would B be prime minister?
+
+We can use a one-sided 95% confidence interval $\alpha = 0.05$ to see if B surpasses the 50%.
+
+```{r example of prop test}
+binom.test(x = 200, n = 500, p = 0.5, alternative = "less")
+```
+
+Think! why did we choose `alternative="less"`?
+
+---
+
+# Variance confidence intervals
+
+   * Similarly to the confidence intervals we used for two means, we can use a confidence interval to compare the variance of two samples
+   
+   * The function is called `var.test`
+   
+   * Since our test relates to the ratio, we are interested to see if 1 is in our confidence interval
+
+---
+
+# Exercise
+
+See in `labs/IPF power lifts - confidence intervals/04-Confidence-Intervals.R`, also available [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/IPF%20power%20lifts%20-%20confidence%20intervals/04-Confidence-Intervals.R).
 
 ---
 
@@ -145,4 +343,6 @@ In this exercise you will explore (transform and wrangle) [Himalayan Climbing Ex
    
    * You experienced the various functions using the Himalayan Climbing Expeditions data set from the tidytuesday repository
    
-   * Next week we will discuss hypothesis testing and linear regression
+   * We discussed confidence intervals (using t.test, binom.test, and var.test)
+   
+   * Next week we will discuss hypothesis tests and linear regression
