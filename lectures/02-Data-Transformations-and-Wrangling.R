@@ -93,7 +93,7 @@ modified_penguins <- penguins %>%
 # Let's build a data with pengion type, island, sex, year, type of length measurement, and value of measurement
 # (The measurements represent bill length, depth, flipper length and body mass)
 
-# This is especially useful when plotting with ggplot2, which we will discuss next week
+# This is especially useful when plotting with ggplot2, which we discussed
 
 # Joining data sets (combine tables) -------------------------------------
 
