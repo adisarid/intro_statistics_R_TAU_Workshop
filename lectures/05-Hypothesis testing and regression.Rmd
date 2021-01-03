@@ -1,0 +1,468 @@
+---
+title: "Hypothesis testing and regression"
+subtitle: "Fifth session"
+author: "Adi Sarid"
+institute: "Tel-Aviv University"
+date: "Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    css: [metropolis, rutgers-fonts]
+---
+
+```{css, echo = FALSE}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 24px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+.small .remark-code {
+   font-size: 75% !important;
+}
+.remark-slide-content {
+    font-size: 25px;
+    padding: 1em 4em 1em 4em;
+}
+table { display: inline-block; }
+th, td {
+   padding: 5px;
+}
+small-slide {
+   font-size: 70% !important;
+}
+```
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, fig.width = 3, fig.height = 3)
+knitr::opts_chunk$set(fig.dim=c(3, 3), fig.align = "center")
+library(tidyverse)
+library(patchwork)
+```
+
+
+# Recap from last week 
+
+   * We completed some missing pieces related to data transformations and wrangling:
+   
+      * Changing the data representation (changing long to wide formats or vice verse)
+      
+      * Merging (joining) data sets (`left_join`, `right_join`, etc.)
+   
+   * We discussed confidence intervals (using `t.test`, `binom.test`)
+
+---
+
+class: small-slide
+
+# Today's focus 
+
+   * Reminder on `t.test` and `binom.test`, and discussing `var.test`
+   
+   * Solving the IPF exercise on t.test
+   
+   * Hypothesis tests (t.test, goodness-of-fit)
+   
+   * Linear regression
+
+<img src="environmental-data-science-r4ds-general.png" width="60%" height="auto">
+
+Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+
+
+---
+
+# A confidence interval using t.test
+
+We are looking for a confidence interval to the mean, and the variance is unknown.
+
+Three situations:
+
+   * One sample t-test
+   * Unpaired two sample t-test
+   * Paired two sample t-test
+
+Demonstration in `lectures/04-Confidence-Intervals-and-Hypothesis-Tests.R`.
+
+---
+
+# Variance confidence intervals
+
+   * Similarly to the confidence intervals we used for two means, we can use a confidence interval to compare the variance of two samples
+   
+   * The function is called `var.test`
+   
+   * Since our test relates to the ratio, we are interested to see if 1 is in our confidence interval
+
+---
+
+# Exercise
+
+See in `labs/IPF power lifts - confidence intervals/04-Confidence-Intervals.R`, also available [here](https://github.com/adisarid/intro_statistics_R_TAU_Workshop/blob/main/labs/IPF%20power%20lifts%20-%20confidence%20intervals/04-Confidence-Intervals.R).
+
+---
+
+class:small-slide
+
+# Reminder: General framework for hypothesis testing
+
+This is the procedure for hypothesis testing:
+
+   1. Identify the parameter of interest (i.e., proportion, expectancy, std, etc.)
+   
+   2. State the null hypothesis $H_0$
+   
+   3. Specify the alternative hypothesis $H_1$ (one sided, two sided, etc.) 
+   
+   4. Choose significance level $\alpha$
+   
+   5. Determine what test statistic to use (e.g., $Z, T, X^2$)
+    
+   6. State the rejection region for the statistic
+   
+   7. Compute the sample quantities, plug-in into the test statistic and compute it
+   
+   8. Decide if $H_0$ should be rejected based on 6-7
+   
+---
+
+# Example for hypothesis test
+
+From the IPF data set `labs/04-Confidence-Intervals.R`. For each of the following tests:
+
+   * Formulate the complete hypothesis test 
+   
+   * Decide on the test statistic (determine if it is a paired or un-paired, one or two-sample) 
+   * Use the t.test command to conduct the test. What is the test p-value?
+
+   * Test the hypothesis that men are able to lift more than women in dead lift
+   
+   * Test the hypothesis that dead lift weight is higher than squat weight
+
+---
+
+# Comparing distributions - qqplot
+
+So far, we discussed tests related to parameters' values, however, sometimes we want to compare entire distributions. For example, is the deadlift max weight normally distributed?
+
+--
+
+A qqplot draws the sample (on y axis) versus the theoretical distribuion (on x-axis). If the two are on $y=x$ this means that the distributions match. 
+
+--
+
+```{r load file, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+ipf <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-08/ipf_lifts.csv")
+```
+
+Would you say that the following are from the same distribution?
+.tiny[
+```{r deadlift weight qqplot}
+ggplot(ipf %>% filter(sex == "M") %>% filter(best3deadlift_kg > 0), 
+       aes(sample = best3deadlift_kg)) + 
+   geom_qq(distribution = stats::qnorm, dparams = list(mean = 250, sd = 50)) + 
+   theme_bw() + 
+   geom_abline(slope = 1, intercept = 0)
+```
+]
+
+---
+
+# Hypothesis testing - goodness of fit
+
+Goodness of fit tests are used to test how good is the fit of our empirical distribution to that of a theoretical distribution.
+
+--
+
+Arrange the empirical distribution in $k$ bins, and let $O_i$ be the observed frequency in the $i$th class bin. Let $E_i$ be the expected probability. The test statistic is:
+
+$$\chi^2_0=\sum_{i=1}^k\frac{(O_i-E_i)^2}{E_i}$$
+
+If the population follows the hypothesized distribution, then the expression is approximately distributed $\chi^2_{k-p-1}$, where $p$ os the number of parameters of the hypothesized distribution estimated by sample statistics.
+
+The approximation improves as $n$ increases.
+
+--
+
+When using the approximation, make sure that $E_i$ is "big enough" (i.e., $E_i\geq5, \forall i$)
+
+---
+
+# Hypothesis testing - goodness of fit - procedure
+
+We would reject the hypothesis if $\chi_0^2>\chi_{\alpha,k-p-1}^2$.
+
+   1. We are interested in the form of the distribution of maximum deadlift weight
+   2. $H_0$: The deadlift weight is normally distributed
+   3. $H_1$: The deadlift weight is not normally distributed
+   4. $\alpha = 0.05$
+   5. The test statistic is: $\chi^2_0=\sum_{i=1}^k{\frac{(O_i-E_i)^2}{E_i}}$
+   6. Reject $H_0$ if $\chi_0^2>\chi^2_{0.05,k-p-1}$
+
+---
+
+# Goodness of fit - example
+
+.tiny[
+```{r}
+interval_breaks <- c(0, 120, 190, 250, 320, 600)
+sample_size <- 500
+deadlift_gfit <- ipf %>% 
+   filter(!is.na(best3deadlift_kg)) %>% 
+   filter(best3deadlift_kg > 0) %>% 
+   mutate(weight_gr = cut(best3deadlift_kg, breaks = interval_breaks))
+mu <- mean(deadlift_gfit$best3deadlift_kg)
+sigma <- sd(deadlift_gfit$best3deadlift_kg)
+deadlift_chi_prep <- deadlift_gfit %>% 
+   count(weight_gr, name = "observed") %>% 
+   mutate(upper_bound = interval_breaks[-1]) %>% 
+   mutate(lower_bound = interval_breaks[1:5]) %>% 
+   mutate(expected_prob = 
+             pnorm(q = upper_bound, mean = mu, sd = sigma)-
+             pnorm(q = lower_bound, mean = mu, sd = sigma)) %>% 
+   mutate(expected_prob =  expected_prob/sum(expected_prob))
+```
+]
+
+What is the p-value? (really small)
+
+--
+
+.tiny[
+```{r compute p-value}
+chisq.test(x = deadlift_chi_prep$observed, 
+           p = deadlift_chi_prep$expected_prob)
+```
+]
+
+---
+
+# Kolmogorov-Smirnov test
+
+An unparametric test of independence, alternative to chi-square goodness of fit.
+
+```{r ks test example}
+ks.test(deadlift_gfit$best3deadlift_kg, "pnorm",
+        mu, sigma)
+```
+
+---
+
+# Exercise
+
+Open `labs/Palmer Penguins - hypothesis tests and regression/05-Palmer-Penguin-Tests.R`.
+
+Solve exercise 1.
+
+---
+
+# Simple Linear Regression: background
+
+Linear regression is an important modeling technique in statistics. It was developed in the 1800s and is still very common today.
+
+--
+
+   * In essense, it allows us to model the relationship between two or more variables, utilizing some basic assumptions such as linearity, and normality.
+
+--
+
+   * These days, it is less common as a predictive modeling approach, because for predictions we have much better models.
+
+--
+
+   * It is still heavily used in research (e.g., academia) to describe and indicate statistically significant relationships.
+
+--
+
+   * Linear regression is very appealing as one of the "first models to try out" because it is very simple to understand, has a low computational price, it is easy to interpret, and yet very flexible.
+
+---
+
+# Simple Linear Regression: example - bird strikes (1/3)
+
+A very troubling problem for aviation is bird strikes
+
+   * From a monetary perspective - causing damages to planes
+   
+   * From a safety perspective - endangers the passanges and crew
+   
+   * (Obviously it's not that fun to the birds either)
+   
+--
+
+What is the relationship between flight height and the number of bird strike events?
+
+--
+
+The data we will be exploring is adopted from tidytuesday (2019-07-23), [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-07-23).
+
+--
+
+.tiny[
+```{r introducing the bird strike dataset}
+# wildlife_impacts <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-07-23/wildlife_impacts.csv")
+# write_csv(wildlife_impacts %>% count(height), "lectures/data/wildlife_impacts_small.csv")
+wildlife_small <- read_csv("data/wildlife_impacts_small.csv", 
+                           col_types = cols()) %>% 
+  mutate(rounded_height = round(height/1000)) %>% 
+   group_by(rounded_height) %>% 
+   summarize(n = sum(n)) %>% 
+   filter(!is.na(rounded_height))
+```
+]
+
+---
+
+# Bird strike events example (2/3)
+
+The was categorized to intervals of 1000 feet, i.e., $0-999, 1000-1999,...,25000$.
+
+Note that the data y-axis appears in **log-scale**.
+
+.tiny[
+```{r histogram of bird strike height, fig.dim=c(9, 4)}
+wildlife_hist <- ggplot(wildlife_small, aes(x = rounded_height, y = n)) + 
+   geom_col(fill = "darkorange", color = "black") + scale_y_log10() + theme_bw() + xlab("Height [k feet]")
+wildlife_points <- ggplot(wildlife_small, aes(x = rounded_height, y = n)) + 
+   geom_point() + scale_y_log10() + theme_bw() + 
+   stat_smooth(method = "lm") + xlab("Height [k feet]")
+wildlife_hist + wildlife_points
+```
+]
+
+---
+
+# Bird strike events example (3/3)
+
+```{r bird strike chart smaller, echo = FALSE, fig.dim=c(6,3)}
+wildlife_hist + wildlife_points
+```
+
+It would seem as though each additional $5k$ feet decrease the number of bird strikes by a ratio of $10$, or in other words:
+
+$$\log(\text{Bird strikes}) \approx 3784 - 0.168\times h$$
+
+--
+
+Equivalently, we can also write:
+
+$$\text{Bird strikes} \approx 10^{3784-0.168\times h}$$
+
+--
+
+Even thought this is not exactly a linear equation, it was obtained using linear regression, and we will see later on how we reached this formula. 
+
+---
+
+# Properties of the least squares estimators
+
+.small[The most common method to find the linear relationship is called the least squares estimate. I.e., we are looking for the line which brings to minimum the suqared errors. I.e.:]
+
+   * The $\min\sum_i(\hat{y}_i-y_i)^2$ of the red lines in:
+
+```{r least squares example, echo=FALSE, fig.dim=c(6,4), warning=FALSE, message=FALSE}
+wildlife_demo <- wildlife_small %>% 
+   mutate(lm_pred = exp(predict(lm(formula = log(n) ~ rounded_height, wildlife_small))))
+wildlife_points <- ggplot(wildlife_demo, aes(x = rounded_height, y = n)) + 
+   geom_point() + scale_y_log10() + theme_bw() + 
+   stat_smooth(method = "lm", se = FALSE) + xlab("Height [k feet]") + 
+   geom_segment(aes(xend = rounded_height, yend = lm_pred), color = "red", size = 1)
+wildlife_points
+```
+
+---
+
+# Linear Regression - Demonstration via R (2)
+
+In this example we also use a transformation within the formula of `lm`, i.e. `log(n)`
+
+.small[
+```{r linear regression demonstration 2}
+wildlife_lm <- lm(formula = log(n) ~ rounded_height, data = wildlife_small)
+summary(wildlife_lm)
+```
+]
+
+---
+
+# Hypothesis tests in simple linear regression
+
+Now that we found a relationship $y=\hat{\beta}_0 + \hat{\beta}_1x$, we want to figure out, is this relationship "real"?
+
+--
+
+In other words, we would like to test the hypothesis:
+
+   * $H_0:\beta_0=0$
+   * $H_1:\beta_0\neq0$
+   
+And the hypothesis:
+
+   * $H_0:\beta_1=0$
+   * $H_1:\beta_1\neq0$
+
+If both are rejected (especially $\beta_1$), we can say that the relationship we found is statistically significant.
+
+---
+
+# Hypothesis tests in simple linear regression (demonstration)
+
+```{r another demonstration of the wildlife regression}
+summary(wildlife_lm)
+
+wildlife_small %>% 
+   mutate(resid = wildlife_lm$residuals) %>% 
+   ggplot(aes(x = n, y = resid)) + 
+   geom_point() +
+   scale_x_log10() +
+   theme_bw()
+```
+
+---
+
+# Multiple linear regression
+
+Let's enrich the previous problem. What is the interpretation of each coefficient?
+
+.tiny[
+```{r}
+wildlife_medium <- read_csv("https://raw.githubusercontent.com/adisarid/intro_statistics_R/master/lectures/data/wildlife_impacts_medium.csv", col_types = cols())
+lm(formula = log10(n) ~ ., data = wildlife_medium) %>%   summary()
+```
+]
+
+---
+
+# Exercise
+
+Open `labs/Palmer Penguins - hypothesis tests and regression/05-Palmer-Penguin-Tests.R`.
+
+Solve exercise 2.
+
+
+---
+
+# Wrap up
+
+   * Reminder on `t.test` and `binom.test`, and discussing `var.test`
+   
+   * Solving the IPF exercise on `t.test`
+   
+   * Hypothesis tests (t.test, goodness-of-fit)
+   
+   * Linear regression, multiple linear regression
