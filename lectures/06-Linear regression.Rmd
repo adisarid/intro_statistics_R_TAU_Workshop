@@ -1,0 +1,433 @@
+---
+title: "Linear regression"
+subtitle: "Sixth session"
+author: "Adi Sarid"
+institute: "Tel-Aviv University"
+date: "Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    css: [metropolis, rutgers-fonts]
+---
+
+```{css, echo = FALSE}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 24px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+.small .remark-code {
+   font-size: 75% !important;
+}
+.remark-slide-content {
+    font-size: 25px;
+    padding: 1em 4em 1em 4em;
+}
+table { display: inline-block; }
+th, td {
+   padding: 5px;
+}
+small-slide {
+   font-size: 70% !important;
+}
+```
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, fig.width = 3, fig.height = 3)
+knitr::opts_chunk$set(fig.dim=c(3, 3), fig.align = "center")
+library(tidyverse)
+library(patchwork)
+```
+
+
+# Recap from last week 
+
+   * Reminder on `t.test` and `binom.test`, and discussing `var.test`
+   
+   * Solving the IPF exercise on `t.test`
+   
+   * Hypothesis tests (t.test, goodness-of-fit)
+   
+   * We started to discuss linear regression
+
+---
+
+class: small-slide
+
+# Today's focus 
+
+   * We're going to work on linear regression
+   
+   * Reporting using RMarkdown
+
+<img src="environmental-data-science-r4ds-general.png" width="60%" height="auto">
+
+Source: Illustrations by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+
+
+---
+
+# Simple Linear Regression: example - bird strikes (1/3)
+
+A very troubling problem for aviation is bird strikes
+
+   * From a monetary perspective - causing damages to planes
+   
+   * From a safety perspective - endangers the passanges and crew
+   
+   * (Obviously it's not that fun to the birds either)
+   
+--
+
+What is the relationship between flight height and the number of bird strike events?
+
+--
+
+The data we will be exploring is adopted from tidytuesday (2019-07-23), [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-07-23).
+
+--
+
+.tiny[
+```{r introducing the bird strike dataset}
+# wildlife_impacts <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-07-23/wildlife_impacts.csv")
+# write_csv(wildlife_impacts %>% count(height), "lectures/data/wildlife_impacts_small.csv")
+wildlife_small <- read_csv("data/wildlife_impacts_small.csv", 
+                           col_types = cols()) %>% 
+  mutate(rounded_height = round(height/1000)) %>% 
+   group_by(rounded_height) %>% 
+   summarize(n = sum(n)) %>% 
+   filter(!is.na(rounded_height))
+```
+]
+
+---
+
+# Bird strike events example (2/3)
+
+The was categorized to intervals of 1000 feet, i.e., $0-999, 1000-1999,...,25000$.
+
+Note that the data y-axis appears in **log-scale**.
+
+.tiny[
+```{r histogram of bird strike height, fig.dim=c(9, 4)}
+wildlife_hist <- ggplot(wildlife_small, aes(x = rounded_height, y = n)) + 
+   geom_col(fill = "darkorange", color = "black") + scale_y_log10() + theme_bw() + xlab("Height [k feet]")
+wildlife_points <- ggplot(wildlife_small, aes(x = rounded_height, y = n)) + 
+   geom_point() + scale_y_log10() + theme_bw() + 
+   stat_smooth(method = "lm") + xlab("Height [k feet]")
+wildlife_hist + wildlife_points
+```
+]
+
+---
+
+# Bird strike events example (3/3)
+
+```{r bird strike chart smaller, echo = FALSE, fig.dim=c(6,3)}
+wildlife_hist + wildlife_points
+```
+
+It would seem as though each additional $5k$ feet decrease the number of bird strikes by a ratio of $10$, or in other words:
+
+$$\log(\text{Bird strikes}) \approx 3784 - 0.168\times h$$
+
+--
+
+Equivalently, we can also write:
+
+$$\text{Bird strikes} \approx 10^{3784-0.168\times h}$$
+
+--
+
+Even thought this is not exactly a linear equation, it was obtained using linear regression, and we will see later on how we reached this formula. 
+
+---
+
+# Properties of the least squares estimators
+
+.small[The most common method to find the linear relationship is called the least squares estimate. I.e., we are looking for the line which brings to minimum the suqared errors. I.e.:]
+
+   * The $\min\sum_i(\hat{y}_i-y_i)^2$ of the red lines in:
+
+```{r least squares example, echo=FALSE, fig.dim=c(6,4), warning=FALSE, message=FALSE}
+wildlife_demo <- wildlife_small %>% 
+   mutate(lm_pred = exp(predict(lm(formula = log(n) ~ rounded_height, wildlife_small))))
+wildlife_points <- ggplot(wildlife_demo, aes(x = rounded_height, y = n)) + 
+   geom_point() + scale_y_log10() + theme_bw() + 
+   stat_smooth(method = "lm", se = FALSE) + xlab("Height [k feet]") + 
+   geom_segment(aes(xend = rounded_height, yend = lm_pred), color = "red", size = 1)
+wildlife_points
+```
+
+---
+
+# Linear Regression - Demonstration via R (2)
+
+In this example we also use a transformation within the formula of `lm`, i.e. `log(n)`
+
+.small[
+```{r linear regression demonstration 2}
+wildlife_lm <- lm(formula = log(n) ~ rounded_height, data = wildlife_small)
+summary(wildlife_lm)
+```
+]
+
+---
+
+# Hypothesis tests in simple linear regression
+
+Now that we found a relationship $y=\hat{\beta}_0 + \hat{\beta}_1x$, we want to figure out, is this relationship "real"?
+
+--
+
+In other words, we would like to test the hypothesis:
+
+   * $H_0:\beta_0=0$
+   * $H_1:\beta_0\neq0$
+   
+And the hypothesis:
+
+   * $H_0:\beta_1=0$
+   * $H_1:\beta_1\neq0$
+
+If both are rejected (especially $\beta_1$), we can say that the relationship we found is statistically significant.
+
+---
+
+# Hypothesis tests in simple linear regression (demonstration)
+
+```{r another demonstration of the wildlife regression}
+summary(wildlife_lm)
+
+wildlife_small %>% 
+   mutate(resid = wildlife_lm$residuals) %>% 
+   ggplot(aes(x = n, y = resid)) + 
+   geom_point() +
+   scale_x_log10() +
+   theme_bw()
+```
+
+---
+
+# Multiple linear regression
+
+Let's enrich the previous problem. What is the interpretation of each coefficient?
+
+.tiny[
+```{r}
+wildlife_medium <- read_csv("https://raw.githubusercontent.com/adisarid/intro_statistics_R/master/lectures/data/wildlife_impacts_medium.csv", col_types = cols())
+lm(formula = log10(n) ~ ., data = wildlife_medium) %>%   summary()
+```
+]
+
+---
+
+# Exercise
+
+Open `labs/Palmer Penguins - hypothesis tests and regression/05-Palmer-Penguin-Tests.R`.
+
+Solve exercise 2.
+
+---
+
+# Note About Extrapolation - Thought Experiment
+
+What do you think is the problem with trying to provide an extrapolation (fit) and intervals (confidence for mean and prediction for a new observation) for the number of bird strikes with the following parameters:
+
+   * Flight height = 22 thousand feet
+   
+   * Flight speed = 42 kts
+   
+   * Sky = "No Cloud"
+   
+   * Number of engines = $2$
+
+Can you think of a similar example but from a different domain?
+
+---
+
+# How are Types of Variables Used in Regression?
+
+As you have probably noticed, in the bird-planes example, we used a `sky` variable which has three values (factor). The regression model is linear, if so, how are factor variables treated?
+
+   * Factors are turned into dummy variables (0/1). 
+   
+      * How many dummies are needed for a 3-level factor? why?
+      
+   * Characters are treated the same
+   
+   * Ordinals - depending on definition, might be entered as polynomials, factors, or continuous
+   
+   * Logicals - as a 0/1 variable
+
+---
+ 
+# Variable Selection via Stepwise Regression
+
+In cases we have many independent variables (i.e., $X_i$s) we want to reduce the complexity of the regression model, and focus only on the most important or most influential variables.
+
+--
+
+For that, we can use the **stepwise regression** algorithm.
+
+   * Backward elimination
+   
+   * Forward selection
+   
+   * Backward-forward
+
+--
+
+All algorithms are greedy algorithms: look one step ahead, and choose the best course of action. Hence, the might not reach the optimal solution.
+
+---
+
+# The Backward Elimination Algorithm
+
+   1. Set current model = the "full" model (all independent variables)
+
+--
+   
+   2. Use some accuracy measure to examine the influence of the removal of each of the variables. E.g., the Akaike Information Criteria (AIC = $-2\log(L) + 2p$)
+
+--
+   
+   3. Are there a variabled which contributes to the improvement of the measure (e.g. decrease of the AIC)? 
+   
+      a. **Yes**: Remove the variable which its removal contributes the most (to the improvement of the measure), Update the current model accordingly, and go to step 2. 
+      
+      b. **No**: Algorithm stops and outputs the current model.
+
+--
+      
+## The forward selection
+
+A similar algorithm, instead of removing, add variables one at a time
+
+--
+
+## The backward-forward
+
+Combination, at each iteration check both removal and addition.
+
+---
+
+# Intuition for the AIC
+
+AIC = $-2\log(L) + 2p$
+
+The AIC uses the likelihood $L$:
+
+$$L = \prod_{i=1}^n{f(\hat{y}_i)}$$
+
+(Higher liklihood value is better, hence lower $-2\log(L)$ is better)
+
+--
+
+As the number of parameters in the model increases, the model is more prone to overfitting, hence we a penalty of $2p$ (a high $p$, i.e., a lot of parameters is bad for us).
+
+--
+
+Hence, we want to minimize the AIC.
+
+The value of AIC has no meaning, except for the ability to compare two models.
+
+---
+
+# Stepwise Regression - Example: Car Efficiency.
+
+.tiny[
+```{r mtcars stepwise regression example}
+mtcars_lm <- lm(formula = mpg ~ ., data = mtcars)
+step(mtcars_lm, direction = "backward")
+# step(lm(formula = mpg ~ 1, data = mtcars), 
+#      direction = "forward",
+#      scope = formula(lm(mpg ~ ., data = mtcars)))
+```
+]
+
+---
+
+# Using RMardown
+
+`rmarkdown` is a powerful package for R which allows you to create reports in different formats (such as html and pdf).
+
+It convenient to use for coding, documentation, and the generation of statistical documents.
+
+It is very easy to use, which we are now going to exercise:
+
+   * Open File -> new file -> R Markdown
+   * Save your new document
+   * Click on Knit and see the result
+
+--
+
+If time permits, we're going to demonstrate how we analyze the recent tidytuesday and use all the elements we've learned so far in the workshop.
+
+---
+
+# Wrap up
+
+   * We started the workshop by learning about how data is structured (tidy vs. untidy)
+   
+   * We learned about base R syntax: functions, conditionals (ifs), for loops, logical operators
+   
+   * Basic tidyverse syntax
+   
+      * Tricks to getting to know your data (e.g., `glimpse`, `count`)
+      
+      * Operations that affect rows (e.g., `filter`, `arrange`, `distinct`)
+      
+      * Operations that affect columns (e.g., `select`, `mutate`)
+ 
+---
+
+# Wrap up (2)
+      
+   * Slightly more advanced tidyverse syntax
+      
+      * Summarizing data (e.g., `summarize`, `group_by`)
+      
+      * Changing the data representation (`pivot_longer`, `pivot_wider`)
+      
+      * Merging data sets (e.g., `left_join`, `right_join`, `full_join`)
+   
+   * Visualizations with `ggplot2`!
+   
+      * Theory and practice (aesthetic mappings, geoms, scales, facets)
+      
+   * Confidence intervals and hypothesis tests (e.g., `t.test`, `chisq.test`)
+   
+   * Linear regression and stepwise selection (`lm`, `step`)
+   
+   * RMarkdown reports
+   
+---
+
+# Best way to keep learning
+
+   * Join this FB group: https://www.facebook.com/groups/1655238354489398
+   
+   * Subscribe to [R-Bloggers](https://r-bloggers.com/)
+   
+   * Show up for [rstudio::global](https://rstudio.com/conference/) an online, free, global conference for R (A 24 hour event starting 2021-01-21 at 18:00)
+   
+   * Follow [tidytuesday](https://github.com/rfordatascience/tidytuesday)
+   
+   * Do more in R.
